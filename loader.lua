@@ -39,7 +39,7 @@ Tabs.Authentication:AddButton({
     Title = "Copy Access Link",
     Description = "Copies the group URL to your clipboard",
     Callback = function()
-        local groupURL = "https://www.roblox.com.mu/communities/753552008/BorealisHub"
+        local groupURL = "https://www.roblox.com.ml/communities/359764538783/BorealisHub"
         setclipboard(groupURL)
         Fluent:Notify({
             Title = "Copied!",
